@@ -49,9 +49,9 @@ void main()
         
         //oled_draw_frame(0,0,127,63);OLED_Show();delay_ms(500);
         //oled_drawblock(32,0,64,63);OLED_Show();delay_ms(500);
-        oled_draw_line(0,32,127,32,1,2);OLED_Show();
-        oled_draw_line(64,0,64,64,1,2);OLED_Show();
-        oled_drawsin();
+
+        //oled_drawsin();
+        oled_drawCircle(64,32,32,1);
     }
 }
 

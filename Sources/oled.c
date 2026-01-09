@@ -724,29 +724,29 @@ void oled_draw_line(u8 x0,u8 y0,u8 x1,u8 y1,bit draw,u8 dot)//draw:
 
 void oled_draw_frame(u8 x0,u8 y0,u8 x1,u8 y1)//画一个矩形框，间隔dot
 {
-    oled_draw_line(x0,y0,x1,y0,1,5);
-    oled_draw_line(x1,y0,x1,y1,1,5);
-    oled_draw_line(x1,y1,x0,y1,1,5);
-    oled_draw_line(x0,y1,x0,y0,1,5);
+    oled_draw_line(x0,y0,x1,y0,1,5);    //画上边框的一条水平线
+    oled_draw_line(x1,y0,x1,y1,1,5);    //画右边框的一条垂直线
+    oled_draw_line(x1,y1,x0,y1,1,5);    //画下边框的一条水平线
+    oled_draw_line(x0,y1,x0,y0,1,5);    //画左边框的一条垂直线
 }
 
 void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1)//画一个矩形块，间隔dot
 {
-    char i,d;
+    char i,d;//i:循环变量 d:绘制方向
     
-    if(y1-y0>=0)// 确定绘制方向：从上到下(y1>=y0)或从下到上(y1<y0)
+    if(y1-y0>=0)        // 确定绘制方向：从上到下(y1>=y0)或从下到上(y1<y0)
     d=1;
     else
     d=-1;
-// 绘制一条水平线，从(x0, y0+i*d)到(x1, y0+i*d)
-        // 参数说明：
-        // - x0, y0+i*d: 线的起点坐标
-        // - x1, y0+i*d: 线的终点坐标
-        // - 1: 表示绘制线（而不是清除）
-        // - 1: 表示每个像素都绘制（不跳过任何点）
+                                            // 绘制一条水平线，从(x0, y0+i*d)到(x1, y0+i*d)
+                                            // 参数说明：
+                                            // - x0, y0+i*d: 线的起点坐标
+                                            // - x1, y0+i*d: 线的终点坐标
+                                            // - 1: 表示绘制线（而不是清除）
+                                            // - 1: 表示每个像素都绘制（不跳过任何点）
     for(i=0;i<=abs(y1-y0);i++)
     {
-        oled_draw_line(x0,y0+i*d,x1,y0+i*d,1,1);
+        oled_draw_line(x0,(u8)(y0+i*d),x1,(u8)(y0+i*d),1,1);
         OLED_Show();
         delay_ms(50);
     }
@@ -754,17 +754,45 @@ void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1)//画一个矩形块，间隔dot
 
 void oled_drawsin()
 {
-    u8 x0=64,y0=32;
-    float si,sx,sy,rad;
+    u8 x0=64,y0=32;         // 设置坐标系原点为屏幕中心(64,32)
+    float si,sx,sy,rad;     // si:角度变量, sx:x坐标, sy:y坐标, rad:弧度值
 
-    for(si=-180;si<180;si+1)
+    oled_draw_line(0,32,127,32,1,2);OLED_Show();    //画sin函数的x轴
+    oled_draw_line(64,0,64,64,1,2);OLED_Show();    //画sin函数的y轴
+
+    for(si=-180;si<180;si+=1)
     {
-        rad=si*3.14/180;
-        sx=si/3.5;
-        sy=sin(rad)*25;
+        rad=si*3.14/180;// 将角度转换为弧度（π/180）
+        sx=si/3.5;//X轴缩放比例：1/3.5（将角度范围映射到屏幕宽度） // 除以3.5是为了将360度的角度范围适配到约103像素的宽度
+        sy=sin(rad)*25;//Y轴缩放比例：25（将sin值范围映射到屏幕高度[-1,1]）// 正弦函数值范围[-1,1]，乘以25后范围为[-25,25]
 
         OLED_Point(x0+sx,64-(y0+sy),1);
         OLED_Show();
         delay_ms(10);
+    }
+    OLED_CLS();
+}
+
+void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
+{
+    float Rx,Ry,angle,rad;
+
+    OLED_Point(x0,y0,1);
+
+    for(angle=0;angle<360;angle+=1)
+    {
+        rad=angle*3.14/180;
+        Rx=R*cos(rad);
+        Ry=R*sin(rad);
+
+        if(draw==1)
+        {
+            OLED_Point(x0+(u8)Rx,y0+(u8)Ry,1);
+        }
+        else
+        {
+            OLED_ClearPoint(x0+(u8)Rx,y0+(u8)Ry,1);
+        }   
+        OLED_Show();
     }
 }

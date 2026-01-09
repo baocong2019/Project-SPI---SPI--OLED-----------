@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  time                                                               08/01/26  16:48:08  PAGE 1   
+C251 COMPILER V5.60.0,  time                                                               09/01/26  16:32:47  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE time
@@ -66,7 +66,7 @@ stmt  level    source
    56   3                      }
    57   2                      if(KeyCode == 4)    
    58   2                      {
-C251 COMPILER V5.60.0,  time                                                               08/01/26  16:48:08  PAGE 2   
+C251 COMPILER V5.60.0,  time                                                               09/01/26  16:32:47  PAGE 2   
 
    59   3                          num=10;
    60   3                      }

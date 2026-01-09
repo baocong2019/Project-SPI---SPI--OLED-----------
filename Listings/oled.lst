@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 1   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE oled
@@ -66,7 +66,7 @@ stmt  level    source
                        OLED_SCK = 1;
                        OLED_SCK = 0;
                    }
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 2   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 2   
 
                #endif
    60   1          OLED_CS = 1;    //Æ¬²»Ñ¡
@@ -134,7 +134,7 @@ stmt  level    source
   121   1          SPEN = 1; //Ê¹ÄÜ SPI ¹¦ÄÜ
   122   1          DORD = 0; //ÏÈ·¢ËÍ/½ÓÊÕÊý¾ÝµÄ¸ßÎ»£¨ MSB£©
   123   1          MSTR = 1; //ÉèÖÃÖ÷»úÄ£Ê½
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 3   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 3   
 
   124   1          CPOL = 0; //SCLK ¿ÕÏÐÊ±ÎªµÍµçÆ½£¬SCLK µÄÇ°Ê±ÖÓÑØÎªÉÏÉýÑØ£¬ºóÊ±ÖÓÑØÎªÏÂ½µÑØ
   125   1          CPHA = 0; //Êý¾Ý SS ¹Ü½ÅÎªµÍµçÆ½Çý¶¯µÚÒ»Î»Êý¾Ý²¢ÔÚ SCLK µÄºóÊ±ÖÓÑØ¸Ä±äÊý¾Ý
@@ -202,7 +202,7 @@ stmt  level    source
   187   1      
   188   1          for(i=0;i<8;i++)       //8ÐÐ(Ò³)Ñ­»·...
   189   1          {
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 4   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 4   
 
   190   2              OLED_WR_CMD((u8)(0xB0+i)); //ÉèÖÃÐÐÆðÊ¼µØÖ·
   191   2              OLED_WR_CMD(0x00);   //ÉèÖÃµÍÁÐÆðÊ¼µØÖ·
@@ -270,7 +270,7 @@ stmt  level    source
   252   2              {
   253   3                  ShowBuf[Y+i][X+l] = BMP[num++];
   254   3              }
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 5   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 5   
 
   255   2          }
   256   1          if(mode)
@@ -338,7 +338,7 @@ stmt  level    source
   318   2              {
   319   3                  for(y=Y1; y<=Y0; y++ )  OLED_Point(X0,y,0);
   320   3              }
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 6   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 6   
 
   321   2              else
   322   2              {
@@ -406,7 +406,7 @@ stmt  level    source
   384          //========================================================================
   385          // º¯ÊýÃû³Æ: OLED_A08
   386          // º¯Êý¹¦ÄÜ: OLEDÏÔÊ¾Ò»¸ö6*8×Ö·û
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 7   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 7   
 
   387          // Èë¿Ú²ÎÊý: X: Ë®Æ½×ø±êÁÐ 0..127  Y: ´¹Ö±×ø±êÐÐ(Ò³) 0..7 
   388          //     turn: 0:ÕýÏÔÊ¾ 1:·´ÏÔÊ¾  mode: 1:Á¢¼´Ë¢ÐÂÏÔÊ¾ 0:½öÐ´»º´æ
@@ -474,7 +474,7 @@ stmt  level    source
   450   5                              ShowBuf[Y+j][X+i]= Font_Data[m].dat[i+j*16];
   451   5                          else
   452   5                              ShowBuf[Y+j][X+i]=~Font_Data[m].dat[i+j*16];
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 8   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 8   
 
   453   5                      }
   454   4                  }
@@ -542,7 +542,7 @@ stmt  level    source
   516   1      }
   517          
   518          void oled_mask_Gray(unsigned char x_start,unsigned char y_start)
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 9   
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 9   
 
   519          {
   520   1          unsigned char x,y;
@@ -610,7 +610,7 @@ stmt  level    source
   581   2              }
   582   1      }     
   583          
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 10  
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 10  
 
   584          void test_6_gray_img()
   585          {
@@ -678,7 +678,7 @@ stmt  level    source
   646          
   647          void test_dis_boxing()
   648          {
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 11  
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 11  
 
   649   1          test_Boxing_wave(1);
   650   1          OLED_CLS();     
@@ -746,7 +746,7 @@ stmt  level    source
   711   2              if(draw)
   712   2              {
   713   3                  if(!(i%dot))
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 12  
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 12  
 
   714   3                  OLED_Point((u8)x,(u8)y,1);
   715   3              }
@@ -761,31 +761,29 @@ stmt  level    source
   724          
   725          void oled_draw_frame(u8 x0,u8 y0,u8 x1,u8 y1)//»­Ò»¸ö¾ØÐÎ¿ò£¬¼ä¸ôdot
   726          {
-  727   1          oled_draw_line(x0,y0,x1,y0,1,5);
-  728   1          oled_draw_line(x1,y0,x1,y1,1,5);
-  729   1          oled_draw_line(x1,y1,x0,y1,1,5);
-  730   1          oled_draw_line(x0,y1,x0,y0,1,5);
+  727   1          oled_draw_line(x0,y0,x1,y0,1,5);    //»­ÉÏ±ß¿òµÄÒ»ÌõË®Æ½Ïß
+  728   1          oled_draw_line(x1,y0,x1,y1,1,5);    //»­ÓÒ±ß¿òµÄÒ»Ìõ´¹Ö±Ïß
+  729   1          oled_draw_line(x1,y1,x0,y1,1,5);    //»­ÏÂ±ß¿òµÄÒ»ÌõË®Æ½Ïß
+  730   1          oled_draw_line(x0,y1,x0,y0,1,5);    //»­×ó±ß¿òµÄÒ»Ìõ´¹Ö±Ïß
   731   1      }
   732          
   733          void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1)//»­Ò»¸ö¾ØÐÎ¿é£¬¼ä¸ôdot
   734          {
-  735   1          char i,d;
+  735   1          char i,d;//i:Ñ­»·±äÁ¿ d:»æÖÆ·½Ïò
   736   1          
-  737   1          if(y1-y0>=0)// È·¶¨»æÖÆ·½Ïò£º´ÓÉÏµ½ÏÂ(y1>=y0)»ò´ÓÏÂµ½ÉÏ(y1<y0)
+  737   1          if(y1-y0>=0)        // È·¶¨»æÖÆ·½Ïò£º´ÓÉÏµ½ÏÂ(y1>=y0)»ò´ÓÏÂµ½ÉÏ(y1<y0)
   738   1          d=1;
   739   1          else
   740   1          d=-1;
-  741   1      // »æÖÆÒ»ÌõË®Æ½Ïß£¬´Ó(x0, y0+i*d)µ½(x1, y0+i*d)
-  742   1              // ²ÎÊýËµÃ÷£º
-  743   1              // - x0, y0+i*d: ÏßµÄÆðµã×ø±ê
-  744   1              // - x1, y0+i*d: ÏßµÄÖÕµã×ø±ê
-  745   1              // - 1: ±íÊ¾»æÖÆÏß£¨¶ø²»ÊÇÇå³ý£©
-  746   1              // - 1: ±íÊ¾Ã¿¸öÏñËØ¶¼»æÖÆ£¨²»Ìø¹ýÈÎºÎµã£©
+  741   1                                                  // »æÖÆÒ»ÌõË®Æ½Ïß£¬´Ó(x0, y0+i*d)µ½(x1, y0+i*d)
+  742   1                                                  // ²ÎÊýËµÃ÷£º
+  743   1                                                  // - x0, y0+i*d: ÏßµÄÆðµã×ø±ê
+  744   1                                                  // - x1, y0+i*d: ÏßµÄÖÕµã×ø±ê
+  745   1                                                  // - 1: ±íÊ¾»æÖÆÏß£¨¶ø²»ÊÇÇå³ý£©
+  746   1                                                  // - 1: ±íÊ¾Ã¿¸öÏñËØ¶¼»æÖÆ£¨²»Ìø¹ýÈÎºÎµã£©
   747   1          for(i=0;i<=abs(y1-y0);i++)
   748   1          {
-  749   2              oled_draw_line(x0,y0+i*d,x1,y0+i*d,1,1);
-*** WARNING C188 IN LINE 749 OF Sources\oled.c: 'parameter 2': value truncated
-*** WARNING C188 IN LINE 749 OF Sources\oled.c: 'parameter 4': value truncated
+  749   2              oled_draw_line(x0,(u8)(y0+i*d),x1,(u8)(y0+i*d),1,1);
   750   2              OLED_Show();
   751   2              delay_ms(50);
   752   2          }
@@ -793,35 +791,69 @@ stmt  level    source
   754          
   755          void oled_drawsin()
   756          {
-  757   1          u8 x0=64,y0=32;
-  758   1          float si,sx,sy,rad;
+  757   1          u8 x0=64,y0=32;         // ÉèÖÃ×ø±êÏµÔ­µãÎªÆÁÄ»ÖÐÐÄ(64,32)
+  758   1          float si,sx,sy,rad;     // si:½Ç¶È±äÁ¿, sx:x×ø±ê, sy:y×ø±ê, rad:»¡¶ÈÖµ
   759   1      
-  760   1          for(si=-180;si<180;si+1)
-  761   1          {
-  762   2              rad=si*3.14/180;
-  763   2              sx=si/3.5;
-  764   2              sy=sin(rad)*25;
-  765   2      
-  766   2              OLED_Point(x0+sx,64-(y0+sy),1);
-  767   2              OLED_Show();
-  768   2              delay_ms(10);
-  769   2          }
-  770   1      }
+  760   1          oled_draw_line(0,32,127,32,1,2);OLED_Show();    //»­sinº¯ÊýµÄxÖá
+  761   1          oled_draw_line(64,0,64,64,1,2);OLED_Show();    //»­sinº¯ÊýµÄyÖá
+  762   1      
+  763   1          for(si=-180;si<180;si+=1)
+  764   1          {
+  765   2              rad=si*3.14/180;// ½«½Ç¶È×ª»»Îª»¡¶È£¨¦Ð/180£©
+  766   2              sx=si/3.5;//XÖáËõ·Å±ÈÀý£º1/3.5£¨½«½Ç¶È·¶Î§Ó³Éäµ½ÆÁÄ»¿í¶È£© // ³ýÒÔ3.5ÊÇÎªÁË½«360¶ÈµÄ½Ç¶È·¶Î§ÊÊÅäµ
+             -½Ô¼103ÏñËØµÄ¿í¶È
+  767   2              sy=sin(rad)*25;//YÖáËõ·Å±ÈÀý£º25£¨½«sinÖµ·¶Î§Ó³Éäµ½ÆÁÄ»¸ß¶È[-1,1]£©// ÕýÏÒº¯ÊýÖµ·¶Î§[-1,1]£¬³ËÒÔ2
+             -5ºó·¶Î§Îª[-25,25]
+  768   2      
+  769   2              OLED_Point(x0+sx,64-(y0+sy),1);
+  770   2              OLED_Show();
+  771   2              delay_ms(10);
+  772   2          }
+  773   1          OLED_CLS();
+  774   1      }
+  775          
+  776          void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
+  777          {
+C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 13  
+
+  778   1          float Rx,Ry,angle,rad;
+  779   1      
+  780   1          OLED_Point(x0,y0,1);
+  781   1      
+  782   1          for(angle=0;angle<360;angle+=1)
+  783   1          {
+  784   2              rad=angle*3.14/180;
+  785   2              Rx=R*cos(rad);
+  786   2              Ry=R*sin(rad);
+  787   2      
+  788   2              if(draw==1)
+  789   2              {
+  790   3                  OLED_Point(x0+(u8)Rx,y0+(u8)Ry,1);
+*** WARNING C188 IN LINE 790 OF Sources\oled.c: 'parameter 1': value truncated
+*** WARNING C188 IN LINE 790 OF Sources\oled.c: 'parameter 2': value truncated
+  791   3              }
+  792   2              else
+  793   2              {
+  794   3                  OLED_ClearPoint(x0+(u8)Rx,y0+(u8)Ry,1);
+*** WARNING C188 IN LINE 794 OF Sources\oled.c: 'parameter 1': value truncated
+*** WARNING C188 IN LINE 794 OF Sources\oled.c: 'parameter 2': value truncated
+  795   3              }   
+  796   2              OLED_Show();
+  797   2          }
+  798   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      5844     ------
+  code size            =      6190     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
-C251 COMPILER V5.60.0,  oled                                                               08/01/26  16:55:16  PAGE 13  
-
   pdata size           =    ------     ------
   xdata size           =      1302     ------
   xdata-const size     =    ------     ------
-  edata size           =    ------         61
-  bit size             =    ------          3
+  edata size           =    ------         89
+  bit size             =    ------          4
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
@@ -832,4 +864,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)

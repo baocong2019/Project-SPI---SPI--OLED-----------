@@ -7,7 +7,8 @@
             "intelliSenseMode": "${default}",
             "includePath": [
                 "D:/AI-KEIL5/C251/INC",
-                "Sources"
+                "Sources",
+                "D:/AI-KEIL5/C251/INC/STC/"
             ],
             "defines": [
                 "__C251__",
