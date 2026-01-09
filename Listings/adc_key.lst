@@ -1,0 +1,142 @@
+C251 COMPILER V5.60.0,  adc_key                                                            08/01/26  16:16:43  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE adc_key
+OBJECT MODULE PLACED IN .\Objects\adc_key.obj
+COMPILER INVOKED BY: D:\AI-KEIL5\C251\BIN\C251.EXE Sources\adc_key.c XSMALL BROWSE INCDIR(.\Sources) DEBUG PRINT(.\Listi
+                    -ngs\adc_key.lst) OBJECT(.\Objects\adc_key.obj) 
+
+stmt  level    source
+
+    1          #include "config.h"                     //头文件中已包含ai8051u.h, ai_usb.h以及其他头文件
+    2          #include "adc_key.h"                     //头文件中已包含ai8051u.h, ai_usb.h以及其他头文件
+    3          
+    4          
+    5          u8  ADC_KeyState,ADC_KeyState1,ADC_KeyState2,ADC_KeyState3; //键状态
+    6          u8  ADC_KeyHoldCnt; //键按下计时
+    7          u8  KeyCode;    //给用户使用的键码, 1~16有效
+    8          
+    9          
+   10          void adc_key_init(void)
+   11          {
+   12   1          P1M1|= 0x01;   P1M0|= 0x00;   //设置为准双向口, P1.0高阻输入
+   13   1      
+   14   1          ADCTIM = 0x3f;              //设置 ADC 内部时序，ADC采样时间建议设最大值
+   15   1          ADCCFG = 0x2f;              //设置 ADC 时钟为系统时钟/2/16/16
+   16   1          ADC_CONTR = 0x80;   //使能 ADC 模块
+   17   1      
+   18   1          ADC_KeyState  = 0;
+   19   1          ADC_KeyState1 = 0;
+   20   1          ADC_KeyState2 = 0;
+   21   1          ADC_KeyState3 = 0;  //键状态
+   22   1          ADC_KeyHoldCnt = 0; //键按下计时
+   23   1          KeyCode = 0;        //给用户使用的键码, 1~16有效
+   24   1      }
+   25          
+   26          //========================================================================
+   27          // 函数: u16 Get_ADC12bitResult(u8 channel)
+   28          // 描述: 查询法读一次ADC结果.
+   29          // 参数: channel: 选择要转换的ADC.
+   30          // 返回: 12位ADC结果.
+   31          // 版本: V1.0, 2012-10-22
+   32          //========================================================================
+   33          u16 Get_ADC12bitResult(u8 channel)  //channel = 0~15
+   34          {
+   35   1          ADC_RES = 0;
+   36   1          ADC_RESL = 0;
+   37   1      
+   38   1          ADC_CONTR = (ADC_CONTR & 0xf0) | channel; //设置ADC转换通道
+   39   1          ADC_START = 1;//启动ADC转换
+   40   1          _nop_();
+   41   1          _nop_();
+   42   1          _nop_();
+   43   1          _nop_();
+   44   1      
+   45   1          while(ADC_FLAG == 0);   //wait for ADC finish
+   46   1          ADC_FLAG = 0;     //清除ADC结束标志
+   47   1          return  (((u16)ADC_RES << 8) | ADC_RESL);
+   48   1      }
+   49          
+   50          /***************** ADC键盘计算键码 *****************************
+   51          电路和软件算法设计: Coody
+   52          本ADC键盘方案在很多实际产品设计中, 验证了其稳定可靠, 即使按键使用导电膜,都很可靠.
+   53          16个键,理论上各个键对应的ADC值为 (4096 / 16) * k = 256 * k, k = 1 ~ 16, 特别的, k=16时,对应的ADC值是4095.
+   54          但是实际会有偏差,则判断时限制这个偏差, ADC_OFFSET为+-偏差, 则ADC值在 (256*k-ADC_OFFSET) 与 (256*k+ADC_OFF
+             -SET)之间为键有效.
+   55          间隔一定的时间,就采样一次ADC,比如10ms.
+   56          为了避免偶然的ADC值误判, 或者避免ADC在上升或下降时误判, 使用连续3次ADC值均在偏差范围内时, ADC值才认为有效
+             -.
+C251 COMPILER V5.60.0,  adc_key                                                            08/01/26  16:16:43  PAGE 2   
+
+   57          以上算法, 能保证读键非常可靠.
+   58          **********************************************/
+   59          #define ADC_OFFSET  64
+   60          void CalculateAdcKey(u16 adc)
+   61          {
+   62   1          u8  i;
+   63   1          u16 j;
+   64   1          
+   65   1          if(adc < (256-ADC_OFFSET))
+   66   1          {
+   67   2              ADC_KeyState = 0;   //键状态归0
+   68   2              ADC_KeyHoldCnt = 0;
+   69   2          }
+   70   1          j = 256;
+   71   1          for(i=1; i<=16; i++)
+   72   1          {
+   73   2              if((adc >= (j - ADC_OFFSET)) && (adc <= (j + ADC_OFFSET)))  break;  //判断是否在偏差范围内
+   74   2              j += 256;
+   75   2          }
+   76   1          ADC_KeyState3 = ADC_KeyState2;
+   77   1          ADC_KeyState2 = ADC_KeyState1;
+   78   1          if(i > 16)  ADC_KeyState1 = 0;  //键无效
+   79   1          else                        //键有效
+   80   1          {
+   81   2              ADC_KeyState1 = i;
+   82   2              if((ADC_KeyState3 == ADC_KeyState2) && (ADC_KeyState2 == ADC_KeyState1) &&
+   83   2                 (ADC_KeyState3 > 0) && (ADC_KeyState2 > 0) && (ADC_KeyState1 > 0))
+   84   2              {
+   85   3                  if(ADC_KeyState == 0)   //第一次检测到
+   86   3                  {
+   87   4                      KeyCode  = i;   //保存键码
+   88   4                      ADC_KeyState = i;   //保存键状态
+   89   4                      ADC_KeyHoldCnt = 0;
+   90   4                  }
+   91   3                  if(ADC_KeyState == i)   //连续检测到同一键按着
+   92   3                  {
+   93   4                      if(++ADC_KeyHoldCnt >= 100) //按下1秒后,以10次每秒的速度Repeat Key
+   94   4                      {
+   95   5                          ADC_KeyHoldCnt = 90;
+   96   5                          KeyCode  = i;   //保存键码
+   97   5                      }
+   98   4                  }
+   99   3                  else ADC_KeyHoldCnt = 0; //按下时间计数归0
+  100   3              }
+  101   2          }
+  102   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       279     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =         6     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+C251 COMPILER V5.60.0,  adc_key                                                            08/01/26  16:16:43  PAGE 3   
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

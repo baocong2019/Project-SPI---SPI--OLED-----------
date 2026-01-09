@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "config.h": "c",
+        "ascii.h": "c",
+        "pic.h": "c",
+        "string.h": "c",
+        "rand_num.h": "c",
+        "oled.h": "c",
+        "def.h": "c",
+        "DEF.H": "cpp",
+        "time.h": "c",
+        "adc_key.h": "c",
+        "math.h": "c",
+        "MATH.H": "cpp"
+    }
+}

@@ -1,0 +1,1 @@
+"Sources\oled.c" XSMALL BROWSE INCDIR(.\Sources) DEBUG PRINT(.\Listings\oled.lst) OBJECT(.\Objects\oled.obj)

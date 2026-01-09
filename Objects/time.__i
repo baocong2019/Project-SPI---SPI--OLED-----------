@@ -1,0 +1,1 @@
+"Sources\time.c" XSMALL BROWSE INCDIR(.\Sources) DEBUG PRINT(.\Listings\time.lst) OBJECT(.\Objects\time.obj)

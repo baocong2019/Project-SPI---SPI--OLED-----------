@@ -1,0 +1,11 @@
+".\Objects\main.obj",
+".\Objects\oled.obj",
+".\Objects\pic.obj",
+".\Sources\stc_usb_cdc_32g.LIB",
+".\Objects\adc_key.obj",
+".\Objects\time.obj" 
+TO ".\Objects\TestOLED" 
+PRINT(".\Listings\TestOLED.map") CASE 
+REMOVEUNUSED 
+CLASSES (EDATA (0x0-0x7FF), 
+HDATA (0x0-0x7FF)) 

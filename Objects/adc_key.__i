@@ -1,0 +1,1 @@
+"Sources\adc_key.c" XSMALL BROWSE INCDIR(.\Sources) DEBUG PRINT(.\Listings\adc_key.lst) OBJECT(.\Objects\adc_key.obj)
