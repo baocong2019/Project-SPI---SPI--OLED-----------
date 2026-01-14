@@ -2,7 +2,7 @@
 #include "adc_key.h"                     //头文件中已包含ai8051u.h, ai_usb.h以及其他头文件
 
 
-u8  ADC_KeyState,ADC_KeyState1,ADC_KeyState2,ADC_KeyState3; //键状态
+u8  ADC_KeyState,ADC_KeyState1,ADC_KeyState2,ADC_KeyState3; //键状态，当前状态，前次状态，前前次状态
 u8  ADC_KeyHoldCnt; //键按下计时
 u8  KeyCode;    //给用户使用的键码, 1~16有效
 
@@ -56,12 +56,13 @@ u16 Get_ADC12bitResult(u8 channel)  //channel = 0~15
 为了避免偶然的ADC值误判, 或者避免ADC在上升或下降时误判, 使用连续3次ADC值均在偏差范围内时, ADC值才认为有效.
 以上算法, 能保证读键非常可靠.
 **********************************************/
-#define ADC_OFFSET  64
+#define ADC_OFFSET  64  //偏差值
 void CalculateAdcKey(u16 adc)
 {
-    u8  i;
-    u16 j;
-    
+    u8  i;// 循环计数器，用于检测16个按键
+    u16 j;// 当前检测的按键理论ADC值
+    // 第一步：检测是否无按键按下
+    // 如果ADC值小于192(256-64)，说明没有按键按下
     if(adc < (256-ADC_OFFSET))
     {
         ADC_KeyState = 0;   //键状态归0
@@ -70,15 +71,15 @@ void CalculateAdcKey(u16 adc)
     j = 256;
     for(i=1; i<=16; i++)
     {
-        if((adc >= (j - ADC_OFFSET)) && (adc <= (j + ADC_OFFSET)))  break;  //判断是否在偏差范围内
+        if((adc >= (j - ADC_OFFSET)) && (adc <= (j + ADC_OFFSET)))  break;  //判断是否在偏差范围内 如果是，跳出循环
         j += 256;
     }
-    ADC_KeyState3 = ADC_KeyState2;
-    ADC_KeyState2 = ADC_KeyState1;
+    ADC_KeyState3 = ADC_KeyState2;// 保存前前次状态
+    ADC_KeyState2 = ADC_KeyState1;// 保存前次状态
     if(i > 16)  ADC_KeyState1 = 0;  //键无效
     else                        //键有效
     {
-        ADC_KeyState1 = i;
+        ADC_KeyState1 = i;// 保存当前按键编号
         if((ADC_KeyState3 == ADC_KeyState2) && (ADC_KeyState2 == ADC_KeyState1) &&
            (ADC_KeyState3 > 0) && (ADC_KeyState2 > 0) && (ADC_KeyState1 > 0))
         {
@@ -86,7 +87,7 @@ void CalculateAdcKey(u16 adc)
             {
                 KeyCode  = i;   //保存键码
                 ADC_KeyState = i;   //保存键状态
-                ADC_KeyHoldCnt = 0;
+                ADC_KeyHoldCnt = 0;// 重置长按计时
             }
             if(ADC_KeyState == i)   //连续检测到同一键按着
             {

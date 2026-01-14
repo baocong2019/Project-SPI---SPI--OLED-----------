@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 1   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE oled
@@ -18,7 +18,7 @@ stmt  level    source
     8          #include "rand_num.h"
     9          #include "oled.h"
    10          #include "math.h"              //°üº¬ÏîÄ¿Í·ÎÄ¼þ
-   11          
+   11          #include "time.h"
    12          
    13          #define UseSPI    1     //0: IOÄ£ÄâSPI;  1: Ê¹ÓÃÓ²¼þSPI
    14          
@@ -66,7 +66,7 @@ stmt  level    source
                        OLED_SCK = 1;
                        OLED_SCK = 0;
                    }
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 2   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 2   
 
                #endif
    60   1          OLED_CS = 1;    //Æ¬²»Ñ¡
@@ -134,7 +134,7 @@ stmt  level    source
   121   1          SPEN = 1; //Ê¹ÄÜ SPI ¹¦ÄÜ
   122   1          DORD = 0; //ÏÈ·¢ËÍ/½ÓÊÕÊý¾ÝµÄ¸ßÎ»£¨ MSB£©
   123   1          MSTR = 1; //ÉèÖÃÖ÷»úÄ£Ê½
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 3   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 3   
 
   124   1          CPOL = 0; //SCLK ¿ÕÏÐÊ±ÎªµÍµçÆ½£¬SCLK µÄÇ°Ê±ÖÓÑØÎªÉÏÉýÑØ£¬ºóÊ±ÖÓÑØÎªÏÂ½µÑØ
   125   1          CPHA = 0; //Êý¾Ý SS ¹Ü½ÅÎªµÍµçÆ½Çý¶¯µÚÒ»Î»Êý¾Ý²¢ÔÚ SCLK µÄºóÊ±ÖÓÑØ¸Ä±äÊý¾Ý
@@ -202,7 +202,7 @@ stmt  level    source
   187   1      
   188   1          for(i=0;i<8;i++)       //8ÐÐ(Ò³)Ñ­»·...
   189   1          {
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 4   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 4   
 
   190   2              OLED_WR_CMD((u8)(0xB0+i)); //ÉèÖÃÐÐÆðÊ¼µØÖ·
   191   2              OLED_WR_CMD(0x00);   //ÉèÖÃµÍÁÐÆðÊ¼µØÖ·
@@ -270,7 +270,7 @@ stmt  level    source
   252   2              {
   253   3                  ShowBuf[Y+i][X+l] = BMP[num++];
   254   3              }
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 5   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 5   
 
   255   2          }
   256   1          if(mode)
@@ -338,7 +338,7 @@ stmt  level    source
   318   2              {
   319   3                  for(y=Y1; y<=Y0; y++ )  OLED_Point(X0,y,0);
   320   3              }
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 6   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 6   
 
   321   2              else
   322   2              {
@@ -406,7 +406,7 @@ stmt  level    source
   384          //========================================================================
   385          // º¯ÊýÃû³Æ: OLED_A08
   386          // º¯Êý¹¦ÄÜ: OLEDÏÔÊ¾Ò»¸ö6*8×Ö·û
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 7   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 7   
 
   387          // Èë¿Ú²ÎÊý: X: Ë®Æ½×ø±êÁÐ 0..127  Y: ´¹Ö±×ø±êÐÐ(Ò³) 0..7 
   388          //     turn: 0:ÕýÏÔÊ¾ 1:·´ÏÔÊ¾  mode: 1:Á¢¼´Ë¢ÐÂÏÔÊ¾ 0:½öÐ´»º´æ
@@ -474,7 +474,7 @@ stmt  level    source
   450   5                              ShowBuf[Y+j][X+i]= Font_Data[m].dat[i+j*16];
   451   5                          else
   452   5                              ShowBuf[Y+j][X+i]=~Font_Data[m].dat[i+j*16];
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 8   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 8   
 
   453   5                      }
   454   4                  }
@@ -542,7 +542,7 @@ stmt  level    source
   516   1      }
   517          
   518          void oled_mask_Gray(unsigned char x_start,unsigned char y_start)
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 9   
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 9   
 
   519          {
   520   1          unsigned char x,y;
@@ -610,7 +610,7 @@ stmt  level    source
   581   2              }
   582   1      }     
   583          
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 10  
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 10  
 
   584          void test_6_gray_img()
   585          {
@@ -678,7 +678,7 @@ stmt  level    source
   646          
   647          void test_dis_boxing()
   648          {
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 11  
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 11  
 
   649   1          test_Boxing_wave(1);
   650   1          OLED_CLS();     
@@ -691,161 +691,158 @@ stmt  level    source
   657   1      }
   658          
   659          
-  660          void ButtonWave()
+  660          void ButtonWave()//¶¯Ì¬°´¼ü²¨ÐÎÍ¼
   661          {
   662   1          unsigned char Xtime;
   663   1          
   664   1          for(Xtime=127;Xtime>0;Xtime--)
   665   1          {
-  666   2              WaveData[Xtime]=WaveData[Xtime-1];
+  666   2              WaveData[Xtime]=WaveData[Xtime-1];//½«Ç°Ò»¸öµãµÄy×ø±ê¸³Öµ¸øµ±Ç°µãµÄy×ø±ê
   667   2          }
   668   1      
-  669   1          // if(P34)//Ä¬ÈÏ¸ßµçÆ½
-  670   1          // {
-  671   1          //     WaveData[0]=high_level_num;
-  672   1          // }
-  673   1          // else
-  674   1          // {
-  675   1          //     WaveData[0]=low_level_num;
-  676   1          // }
-  677   1      
-  678   1          OLED_CLS();
-  679   1          for(Xtime=0;Xtime<127;Xtime++)
-  680   1          {
-  681   2              OLED_Line(Xtime,(unsigned char)(63-WaveData[Xtime]) ,Xtime,(unsigned char)(63-WaveData[Xtime+1]),
+  669   1          OLED_CLS();
+  670   1          for(Xtime=0;Xtime<127;Xtime++)
+  671   1          {
+  672   2              OLED_Line(Xtime,(unsigned char)(63-WaveData[Xtime]) ,Xtime,(unsigned char)(63-WaveData[Xtime+1]),
              -0);//x0,y0,x1,y1,ÊÇ·ñÁ¢¼´ÏÔÊ¾
-  682   2          }
-  683   1          OLED_Show();
-  684   1          delay_ms(50);
-  685   1      }
-  686          
-  687          void oled_draw_line(u8 x0,u8 y0,u8 x1,u8 y1,bit draw,u8 dot)//draw:
-  688          {
-  689   1          u8 lx = abs(x1-x0); //lx:Ë®Æ½¾àÀë abs()È¡¾ø¶ÔÖµ
-  690   1          u8 ly = abs(y1-y0);
-  691   1          u8 dm,i;   //È¡xylÖÐ½Ï´óµÄÒ»¸ö×÷ÎªÑ­»·´ÎÊý
-  692   1          float dx,dy; //dx:Ë®Æ½ÔöÁ¿ dy:´¹Ö±ÔöÁ¿
-  693   1          float x,y;
-  694   1      
+  673   2          }
+  674   1          OLED_Show();
+  675   1          
+  676   1      }
+  677          
+  678          void oled_draw_line(u8 x0,u8 y0,u8 x1,u8 y1,bit draw,u8 dot)//draw:
+  679          {
+  680   1          u8 lx = abs(x1-x0); //lx:Ë®Æ½¾àÀë abs()È¡¾ø¶ÔÖµ
+  681   1          u8 ly = abs(y1-y0);
+  682   1          u8 dm,i;   //È¡xylÖÐ½Ï´óµÄÒ»¸ö×÷ÎªÑ­»·´ÎÊý
+  683   1          float dx,dy; //dx:Ë®Æ½ÔöÁ¿ dy:´¹Ö±ÔöÁ¿
+  684   1          float x,y;
+  685   1      
+  686   1      
+  687   1          if(lx >= ly)//Èç¹ûË®Æ½¾àÀë´óÓÚµÈÓÚ´¹Ö±¾àÀë
+  688   1          {
+  689   2              dm = lx;
+  690   2          }
+  691   1          else
+  692   1          {
+  693   2              dm = ly;
+  694   2          }
   695   1      
-  696   1          if(lx >= ly)//Èç¹ûË®Æ½¾àÀë´óÓÚµÈÓÚ´¹Ö±¾àÀë
-  697   1          {
-  698   2              dm = lx;
-  699   2          }
-  700   1          else
+  696   1          dx=(float)(x1-x0)/dm;//Ã¿½ÚµÄx±ä»¯ÔöÁ¿
+  697   1          dy=(float)(y1-y0)/dm;//Ã¿½ÚµÄy±ä»¯ÔöÁ¿
+  698   1          x=(float)x0+0.5;//x0+0.5:ÎªÁË±ÜÃâ¸¡µãÊý¼ÆËãÎó²î£¬½«x0,y0×ª»»Îª¸¡µãÊýºóÔÙ¼ÓÉÏ0.5
+  699   1          y=(float)y0+0.5;//y0+0.5:ÎªÁË±ÜÃâ¸¡µãÊý¼ÆËãÎó²î£¬½«x0,y0×ª»»Îª¸¡µãÊýºóÔÙ¼ÓÉÏ0.5
+  700   1          for(i=0;i<=dm;i++)
   701   1          {
-  702   2              dm = ly;
-  703   2          }
-  704   1      
-  705   1          dx=(float)(x1-x0)/dm;//Ã¿½ÚµÄx±ä»¯ÔöÁ¿
-  706   1          dy=(float)(y1-y0)/dm;//Ã¿½ÚµÄy±ä»¯ÔöÁ¿
-  707   1          x=(float)x0+0.5;//x0+0.5:ÎªÁË±ÜÃâ¸¡µãÊý¼ÆËãÎó²î£¬½«x0,y0×ª»»Îª¸¡µãÊýºóÔÙ¼ÓÉÏ0.5
-  708   1          y=(float)y0+0.5;//y0+0.5:ÎªÁË±ÜÃâ¸¡µãÊý¼ÆËãÎó²î£¬½«x0,y0×ª»»Îª¸¡µãÊýºóÔÙ¼ÓÉÏ0.5
-  709   1          for(i=0;i<=dm;i++)
-  710   1          {
-  711   2              if(draw)
-  712   2              {
-  713   3                  if(!(i%dot))
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 12  
+  702   2              if(draw)
+  703   2              {
+  704   3                  if(!(i%dot))
+  705   3                  OLED_Point((u8)x,(u8)y,1);
+  706   3              }
+  707   2              else
+  708   2              {
+  709   3                  OLED_ClearPoint((u8)x,(u8)y,1);
+  710   3              }
+  711   2              x+=dx;//»­ÍêÒ»¸öµãºó£¬x×ø±êÔö¼ÓÒ»¸öÔöÁ¿
+  712   2              y+=dy;//»­ÍêÒ»¸öµãºó£¬y×ø±êÔö¼ÓÒ»¸öÔöÁ¿
+  713   2          }
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 12  
 
-  714   3                  OLED_Point((u8)x,(u8)y,1);
-  715   3              }
-  716   2              else
-  717   2              {
-  718   3                  OLED_ClearPoint((u8)x,(u8)y,1);
-  719   3              }
-  720   2              x+=dx;//»­ÍêÒ»¸öµãºó£¬x×ø±êÔö¼ÓÒ»¸öÔöÁ¿
-  721   2              y+=dy;//»­ÍêÒ»¸öµãºó£¬y×ø±êÔö¼ÓÒ»¸öÔöÁ¿
-  722   2          }
-  723   1      }
-  724          
-  725          void oled_draw_frame(u8 x0,u8 y0,u8 x1,u8 y1)//»­Ò»¸ö¾ØÐÎ¿ò£¬¼ä¸ôdot
-  726          {
-  727   1          oled_draw_line(x0,y0,x1,y0,1,5);    //»­ÉÏ±ß¿òµÄÒ»ÌõË®Æ½Ïß
-  728   1          oled_draw_line(x1,y0,x1,y1,1,5);    //»­ÓÒ±ß¿òµÄÒ»Ìõ´¹Ö±Ïß
-  729   1          oled_draw_line(x1,y1,x0,y1,1,5);    //»­ÏÂ±ß¿òµÄÒ»ÌõË®Æ½Ïß
-  730   1          oled_draw_line(x0,y1,x0,y0,1,5);    //»­×ó±ß¿òµÄÒ»Ìõ´¹Ö±Ïß
-  731   1      }
-  732          
-  733          void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1)//»­Ò»¸ö¾ØÐÎ¿é£¬¼ä¸ôdot
-  734          {
-  735   1          char i,d;//i:Ñ­»·±äÁ¿ d:»æÖÆ·½Ïò
-  736   1          
-  737   1          if(y1-y0>=0)        // È·¶¨»æÖÆ·½Ïò£º´ÓÉÏµ½ÏÂ(y1>=y0)»ò´ÓÏÂµ½ÉÏ(y1<y0)
-  738   1          d=1;
-  739   1          else
-  740   1          d=-1;
-  741   1                                                  // »æÖÆÒ»ÌõË®Æ½Ïß£¬´Ó(x0, y0+i*d)µ½(x1, y0+i*d)
-  742   1                                                  // ²ÎÊýËµÃ÷£º
-  743   1                                                  // - x0, y0+i*d: ÏßµÄÆðµã×ø±ê
-  744   1                                                  // - x1, y0+i*d: ÏßµÄÖÕµã×ø±ê
-  745   1                                                  // - 1: ±íÊ¾»æÖÆÏß£¨¶ø²»ÊÇÇå³ý£©
-  746   1                                                  // - 1: ±íÊ¾Ã¿¸öÏñËØ¶¼»æÖÆ£¨²»Ìø¹ýÈÎºÎµã£©
-  747   1          for(i=0;i<=abs(y1-y0);i++)
-  748   1          {
-  749   2              oled_draw_line(x0,(u8)(y0+i*d),x1,(u8)(y0+i*d),1,1);
-  750   2              OLED_Show();
-  751   2              delay_ms(50);
-  752   2          }
-  753   1      }
-  754          
-  755          void oled_drawsin()
-  756          {
-  757   1          u8 x0=64,y0=32;         // ÉèÖÃ×ø±êÏµÔ­µãÎªÆÁÄ»ÖÐÐÄ(64,32)
-  758   1          float si,sx,sy,rad;     // si:½Ç¶È±äÁ¿, sx:x×ø±ê, sy:y×ø±ê, rad:»¡¶ÈÖµ
-  759   1      
-  760   1          oled_draw_line(0,32,127,32,1,2);OLED_Show();    //»­sinº¯ÊýµÄxÖá
-  761   1          oled_draw_line(64,0,64,64,1,2);OLED_Show();    //»­sinº¯ÊýµÄyÖá
-  762   1      
-  763   1          for(si=-180;si<180;si+=1)
-  764   1          {
-  765   2              rad=si*3.14/180;// ½«½Ç¶È×ª»»Îª»¡¶È£¨¦Ð/180£©
-  766   2              sx=si/3.5;//XÖáËõ·Å±ÈÀý£º1/3.5£¨½«½Ç¶È·¶Î§Ó³Éäµ½ÆÁÄ»¿í¶È£© // ³ýÒÔ3.5ÊÇÎªÁË½«360¶ÈµÄ½Ç¶È·¶Î§ÊÊÅäµ
+  714   1      }
+  715          
+  716          void oled_draw_frame(u8 x0,u8 y0,u8 x1,u8 y1)//»­Ò»¸ö¾ØÐÎ¿ò£¬¼ä¸ôdot
+  717          {
+  718   1          oled_draw_line(x0,y0,x1,y0,1,5);    //»­ÉÏ±ß¿òµÄÒ»ÌõË®Æ½Ïß
+  719   1          oled_draw_line(x1,y0,x1,y1,1,5);    //»­ÓÒ±ß¿òµÄÒ»Ìõ´¹Ö±Ïß
+  720   1          oled_draw_line(x1,y1,x0,y1,1,5);    //»­ÏÂ±ß¿òµÄÒ»ÌõË®Æ½Ïß
+  721   1          oled_draw_line(x0,y1,x0,y0,1,5);    //»­×ó±ß¿òµÄÒ»Ìõ´¹Ö±Ïß
+  722   1      }
+  723          
+  724          void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1)//»­Ò»¸ö¾ØÐÎ¿é£¬¼ä¸ôdot
+  725          {
+  726   1          char i,d;//i:Ñ­»·±äÁ¿ d:»æÖÆ·½Ïò
+  727   1          
+  728   1          if(y1-y0>=0)        // È·¶¨»æÖÆ·½Ïò£º´ÓÉÏµ½ÏÂ(y1>=y0)»ò´ÓÏÂµ½ÉÏ(y1<y0)
+  729   1          d=1;
+  730   1          else
+  731   1          d=-1;
+  732   1                                                  // »æÖÆÒ»ÌõË®Æ½Ïß£¬´Ó(x0, y0+i*d)µ½(x1, y0+i*d)
+  733   1                                                  // ²ÎÊýËµÃ÷£º
+  734   1                                                  // - x0, y0+i*d: ÏßµÄÆðµã×ø±ê
+  735   1                                                  // - x1, y0+i*d: ÏßµÄÖÕµã×ø±ê
+  736   1                                                  // - 1: ±íÊ¾»æÖÆÏß£¨¶ø²»ÊÇÇå³ý£©
+  737   1                                                  // - 1: ±íÊ¾Ã¿¸öÏñËØ¶¼»æÖÆ£¨²»Ìø¹ýÈÎºÎµã£©
+  738   1          for(i=0;i<=abs(y1-y0);i++)
+  739   1          {
+  740   2              oled_draw_line(x0,(u8)(y0+i*d),x1,(u8)(y0+i*d),1,1);
+  741   2              OLED_Show();
+  742   2              delay_ms(50);
+  743   2          }
+  744   1      }
+  745          
+  746          void oled_drawsin()
+  747          {
+  748   1          u8 x0=64,y0=32;         // ÉèÖÃ×ø±êÏµÔ­µãÎªÆÁÄ»ÖÐÐÄ(64,32)
+  749   1          float si,sx,sy,rad;     // si:½Ç¶È±äÁ¿, sx:x×ø±ê, sy:y×ø±ê, rad:»¡¶ÈÖµ
+  750   1      
+  751   1          oled_draw_line(0,32,127,32,1,2);OLED_Show();    //»­sinº¯ÊýµÄxÖá
+  752   1          oled_draw_line(64,0,64,64,1,2);OLED_Show();    //»­sinº¯ÊýµÄyÖá
+  753   1      
+  754   1          for(si=-180;si<180;si+=1)
+  755   1          {
+  756   2              rad=si*3.14/180;// ½«½Ç¶È×ª»»Îª»¡¶È£¨¦Ð/180£©
+  757   2              sx=si/3.5;//XÖáËõ·Å±ÈÀý£º1/3.5£¨½«½Ç¶È·¶Î§Ó³Éäµ½ÆÁÄ»¿í¶È£© // ³ýÒÔ3.5ÊÇÎªÁË½«360¶ÈµÄ½Ç¶È·¶Î§ÊÊÅäµ
              -½Ô¼103ÏñËØµÄ¿í¶È
-  767   2              sy=sin(rad)*25;//YÖáËõ·Å±ÈÀý£º25£¨½«sinÖµ·¶Î§Ó³Éäµ½ÆÁÄ»¸ß¶È[-1,1]£©// ÕýÏÒº¯ÊýÖµ·¶Î§[-1,1]£¬³ËÒÔ2
+  758   2              sy=sin(rad)*25;//YÖáËõ·Å±ÈÀý£º25£¨½«sinÖµ·¶Î§Ó³Éäµ½ÆÁÄ»¸ß¶È[-1,1]£©// ÕýÏÒº¯ÊýÖµ·¶Î§[-1,1]£¬³ËÒÔ2
              -5ºó·¶Î§Îª[-25,25]
-  768   2      
-  769   2              OLED_Point(x0+sx,64-(y0+sy),1);
-  770   2              OLED_Show();
-  771   2              delay_ms(10);
-  772   2          }
-  773   1          OLED_CLS();
-  774   1      }
-  775          
-  776          void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
-  777          {
-C251 COMPILER V5.60.0,  oled                                                               09/01/26  16:32:47  PAGE 13  
+  759   2      
+  760   2              OLED_Point(x0+sx,64-(y0+sy),1);
+  761   2              OLED_Show();
+  762   2              delay_ms(10);
+  763   2          }
+  764   1          OLED_CLS();
+  765   1      }
+  766          
+  767          void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
+  768          {
+  769   1          float Rx,Ry,angle,rad;
+  770   1      
+  771   1          OLED_Point(x0,y0,1);
+  772   1      
+  773   1          for(angle=0;angle<360;angle+=1)
+  774   1          {
+  775   2              rad=angle*3.14/180;
+  776   2              Rx=R*cos(rad);
+  777   2              Ry=R*sin(rad);
+C251 COMPILER V5.60.0,  oled                                                               14/01/26  14:58:52  PAGE 13  
 
-  778   1          float Rx,Ry,angle,rad;
-  779   1      
-  780   1          OLED_Point(x0,y0,1);
-  781   1      
-  782   1          for(angle=0;angle<360;angle+=1)
-  783   1          {
-  784   2              rad=angle*3.14/180;
-  785   2              Rx=R*cos(rad);
-  786   2              Ry=R*sin(rad);
-  787   2      
-  788   2              if(draw==1)
-  789   2              {
-  790   3                  OLED_Point(x0+(u8)Rx,y0+(u8)Ry,1);
-*** WARNING C188 IN LINE 790 OF Sources\oled.c: 'parameter 1': value truncated
-*** WARNING C188 IN LINE 790 OF Sources\oled.c: 'parameter 2': value truncated
-  791   3              }
-  792   2              else
-  793   2              {
-  794   3                  OLED_ClearPoint(x0+(u8)Rx,y0+(u8)Ry,1);
-*** WARNING C188 IN LINE 794 OF Sources\oled.c: 'parameter 1': value truncated
-*** WARNING C188 IN LINE 794 OF Sources\oled.c: 'parameter 2': value truncated
-  795   3              }   
-  796   2              OLED_Show();
-  797   2          }
-  798   1      }
+  778   2      
+  779   2              if(draw==1)
+  780   2              {
+  781   3                  OLED_Point(x0+(u8)Rx,y0+(u8)Ry,1);
+*** WARNING C188 IN LINE 781 OF Sources\oled.c: 'parameter 1': value truncated
+*** WARNING C188 IN LINE 781 OF Sources\oled.c: 'parameter 2': value truncated
+  782   3              }
+  783   2              else
+  784   2              {
+  785   3                  OLED_ClearPoint(x0+(u8)Rx,y0+(u8)Ry,1);
+*** WARNING C188 IN LINE 785 OF Sources\oled.c: 'parameter 1': value truncated
+*** WARNING C188 IN LINE 785 OF Sources\oled.c: 'parameter 2': value truncated
+  786   3              }   
+  787   2              OLED_Show();
+  788   2          }
+  789   1      }
+  790          
+  791          void test_key_level_wave()
+  792          {
+  793   1          ButtonWave();//°´¼ü²¨¶¯Í¼ÐÎÏÔÊ¾
+  794   1          time_out();//ADC¼ì²â°´¼ü0ºÍ1£¬·Ö±ð¿ØÖÆ2Ìõ¾²Ì¬²¨ÐÎÍ¼µÄ¸ßµçÆ½ºÍµÍµçÆ½
+  795   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      6190     ------
+  code size            =      6189     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

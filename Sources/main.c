@@ -34,24 +34,9 @@ void main()
         //test_6_gray_img();//测试6阶灰度图像显示
         //test_dis_line();//测试显示线
         //test_dis_boxing();测试静态波形图
-        //ButtonWave();按键波动图形显示
-        //time_out();
-
-        // oled_draw_line(64,32,0,0,1,5);OLED_Show();delay_ms(500);
-        // oled_draw_line(64,32,64,0,1,5);OLED_Show();delay_ms(500);
-        // oled_draw_line(64,32,127,0,1,5);OLED_Show();delay_ms(500);
-        // oled_draw_line(64,32,127,32,1,5);OLED_Show();delay_ms(500);
-
-        // oled_draw_line(64,32,127,64,1,5);OLED_Show();delay_ms(500);
-        // oled_draw_line(64,32,64,64,1,5);OLED_Show();delay_ms(500);
-        // oled_draw_line(64,32,0,64,1,5);OLED_Show();delay_ms(500);
-        // oled_draw_line(64,32,0,32,1,5);OLED_Show();delay_ms(500);
-        
-        //oled_draw_frame(0,0,127,63);OLED_Show();delay_ms(500);
-        //oled_drawblock(32,0,64,63);OLED_Show();delay_ms(500);
-
-        //oled_drawsin();
-        oled_drawCircle(64,32,32,1);
+        //test_key_level_wave();//测试按键0和1的电平变化
+        //test_oled_drawsin(); //画正弦波形      
+        //test_oled_drawCircle(64,32,32,1);//画圆  圆心x,y,半径R,是否填充draw=1
     }
 }
 

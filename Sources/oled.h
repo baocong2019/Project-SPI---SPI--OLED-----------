@@ -50,8 +50,9 @@ void test_dis_boxing(void);
 void oled_draw_line(u8 x0,u8 y0,u8 x1,u8 y1,bit draw,u8 dot);
 void oled_draw_frame(u8 x0,u8 y0,u8 x1,u8 y1);
 void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1);//画一个矩形块，间隔dot
-void oled_drawsin(void);
-void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw);
+void test_oled_drawsin(void);
+void test_oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw);
+void test_key_level_wave(void);
 
 
 #endif

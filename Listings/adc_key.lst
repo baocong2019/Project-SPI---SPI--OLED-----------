@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  adc_key                                                            08/01/26  16:16:43  PAGE 1   
+C251 COMPILER V5.60.0,  adc_key                                                            14/01/26  14:45:50  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE adc_key
@@ -12,7 +12,7 @@ stmt  level    source
     2          #include "adc_key.h"                     //头文件中已包含ai8051u.h, ai_usb.h以及其他头文件
     3          
     4          
-    5          u8  ADC_KeyState,ADC_KeyState1,ADC_KeyState2,ADC_KeyState3; //键状态
+    5          u8  ADC_KeyState,ADC_KeyState1,ADC_KeyState2,ADC_KeyState3; //键状态，当前状态，前次状态，前前次状态
     6          u8  ADC_KeyHoldCnt; //键按下计时
     7          u8  KeyCode;    //给用户使用的键码, 1~16有效
     8          
@@ -66,54 +66,56 @@ stmt  level    source
    55          间隔一定的时间,就采样一次ADC,比如10ms.
    56          为了避免偶然的ADC值误判, 或者避免ADC在上升或下降时误判, 使用连续3次ADC值均在偏差范围内时, ADC值才认为有效
              -.
-C251 COMPILER V5.60.0,  adc_key                                                            08/01/26  16:16:43  PAGE 2   
+C251 COMPILER V5.60.0,  adc_key                                                            14/01/26  14:45:50  PAGE 2   
 
    57          以上算法, 能保证读键非常可靠.
    58          **********************************************/
-   59          #define ADC_OFFSET  64
+   59          #define ADC_OFFSET  64  //偏差值
    60          void CalculateAdcKey(u16 adc)
    61          {
-   62   1          u8  i;
-   63   1          u16 j;
-   64   1          
-   65   1          if(adc < (256-ADC_OFFSET))
-   66   1          {
-   67   2              ADC_KeyState = 0;   //键状态归0
-   68   2              ADC_KeyHoldCnt = 0;
-   69   2          }
-   70   1          j = 256;
-   71   1          for(i=1; i<=16; i++)
-   72   1          {
-   73   2              if((adc >= (j - ADC_OFFSET)) && (adc <= (j + ADC_OFFSET)))  break;  //判断是否在偏差范围内
-   74   2              j += 256;
-   75   2          }
-   76   1          ADC_KeyState3 = ADC_KeyState2;
-   77   1          ADC_KeyState2 = ADC_KeyState1;
-   78   1          if(i > 16)  ADC_KeyState1 = 0;  //键无效
-   79   1          else                        //键有效
-   80   1          {
-   81   2              ADC_KeyState1 = i;
-   82   2              if((ADC_KeyState3 == ADC_KeyState2) && (ADC_KeyState2 == ADC_KeyState1) &&
-   83   2                 (ADC_KeyState3 > 0) && (ADC_KeyState2 > 0) && (ADC_KeyState1 > 0))
-   84   2              {
-   85   3                  if(ADC_KeyState == 0)   //第一次检测到
-   86   3                  {
-   87   4                      KeyCode  = i;   //保存键码
-   88   4                      ADC_KeyState = i;   //保存键状态
-   89   4                      ADC_KeyHoldCnt = 0;
-   90   4                  }
-   91   3                  if(ADC_KeyState == i)   //连续检测到同一键按着
-   92   3                  {
-   93   4                      if(++ADC_KeyHoldCnt >= 100) //按下1秒后,以10次每秒的速度Repeat Key
-   94   4                      {
-   95   5                          ADC_KeyHoldCnt = 90;
-   96   5                          KeyCode  = i;   //保存键码
-   97   5                      }
-   98   4                  }
-   99   3                  else ADC_KeyHoldCnt = 0; //按下时间计数归0
-  100   3              }
-  101   2          }
-  102   1      }
+   62   1          u8  i;// 循环计数器，用于检测16个按键
+   63   1          u16 j;// 当前检测的按键理论ADC值
+   64   1          // 第一步：检测是否无按键按下
+   65   1          // 如果ADC值小于192(256-64)，说明没有按键按下
+   66   1          if(adc < (256-ADC_OFFSET))
+   67   1          {
+   68   2              ADC_KeyState = 0;   //键状态归0
+   69   2              ADC_KeyHoldCnt = 0;
+   70   2          }
+   71   1          j = 256;
+   72   1          for(i=1; i<=16; i++)
+   73   1          {
+   74   2              if((adc >= (j - ADC_OFFSET)) && (adc <= (j + ADC_OFFSET)))  break;  //判断是否在偏差范围内 如果是
+             -，跳出循环
+   75   2              j += 256;
+   76   2          }
+   77   1          ADC_KeyState3 = ADC_KeyState2;// 保存前前次状态
+   78   1          ADC_KeyState2 = ADC_KeyState1;// 保存前次状态
+   79   1          if(i > 16)  ADC_KeyState1 = 0;  //键无效
+   80   1          else                        //键有效
+   81   1          {
+   82   2              ADC_KeyState1 = i;// 保存当前按键编号
+   83   2              if((ADC_KeyState3 == ADC_KeyState2) && (ADC_KeyState2 == ADC_KeyState1) &&
+   84   2                 (ADC_KeyState3 > 0) && (ADC_KeyState2 > 0) && (ADC_KeyState1 > 0))
+   85   2              {
+   86   3                  if(ADC_KeyState == 0)   //第一次检测到
+   87   3                  {
+   88   4                      KeyCode  = i;   //保存键码
+   89   4                      ADC_KeyState = i;   //保存键状态
+   90   4                      ADC_KeyHoldCnt = 0;// 重置长按计时
+   91   4                  }
+   92   3                  if(ADC_KeyState == i)   //连续检测到同一键按着
+   93   3                  {
+   94   4                      if(++ADC_KeyHoldCnt >= 100) //按下1秒后,以10次每秒的速度Repeat Key
+   95   4                      {
+   96   5                          ADC_KeyHoldCnt = 90;
+   97   5                          KeyCode  = i;   //保存键码
+   98   5                      }
+   99   4                  }
+  100   3                  else ADC_KeyHoldCnt = 0; //按下时间计数归0
+  101   3              }
+  102   2          }
+  103   1      }
 
 
 Module Information          Static   Overlayable
@@ -133,10 +135,10 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
+C251 COMPILER V5.60.0,  adc_key                                                            14/01/26  14:45:50  PAGE 3   
+
   hconst size          =    ------     ------
 End of Module Information.
-
-C251 COMPILER V5.60.0,  adc_key                                                            08/01/26  16:16:43  PAGE 3   
 
 
 C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

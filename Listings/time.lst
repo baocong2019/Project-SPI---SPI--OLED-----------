@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  time                                                               09/01/26  16:32:47  PAGE 1   
+C251 COMPILER V5.60.0,  time                                                               14/01/26  15:00:15  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE time
@@ -52,23 +52,23 @@ stmt  level    source
    42   2              }
    43   1              if(KeyCode > 0)     //有键按下
    44   1                  {
-   45   2                      if(KeyCode == 1)    
+   45   2                      if(KeyCode == 1)    //对应板子上的按键0
    46   2                      {
    47   3                          WaveData[0]=high_level_num;
    48   3                      }
-   49   2                      if(KeyCode == 2)    
+   49   2                      if(KeyCode == 2)    //对应板子上的按键1
    50   2                      {
    51   3                          WaveData[0]=low_level_num;
    52   3                      }
    53   2                      if(KeyCode == 3)    
    54   2                      {
-   55   3                          num=0;
+   55   3                          
    56   3                      }
    57   2                      if(KeyCode == 4)    
    58   2                      {
-C251 COMPILER V5.60.0,  time                                                               09/01/26  16:32:47  PAGE 2   
+C251 COMPILER V5.60.0,  time                                                               14/01/26  15:00:15  PAGE 2   
 
-   59   3                          num=10;
+   59   3                          
    60   3                      }
    61   2                      KeyCode = 0;
    62   2                  }
@@ -85,7 +85,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       144     ------
+  code size            =       123     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

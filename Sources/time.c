@@ -42,21 +42,21 @@ void time_out()
         }
         if(KeyCode > 0)     //有键按下
             {
-                if(KeyCode == 1)    
+                if(KeyCode == 1)    //对应板子上的按键0
                 {
                     WaveData[0]=high_level_num;
                 }
-                if(KeyCode == 2)    
+                if(KeyCode == 2)    //对应板子上的按键1
                 {
                     WaveData[0]=low_level_num;
                 }
                 if(KeyCode == 3)    
                 {
-                    num=0;
+                    
                 }
                 if(KeyCode == 4)    
                 {
-                    num=10;
+                    
                 }
                 KeyCode = 0;
             }

@@ -8,7 +8,7 @@
 #include "rand_num.h"
 #include "oled.h"
 #include "math.h"              //包含项目头文件
-
+#include "time.h"
 
 #define UseSPI    1     //0: IO模拟SPI;  1: 使用硬件SPI
 
@@ -657,23 +657,14 @@ void test_dis_boxing()
 }
 
 
-void ButtonWave()
+void ButtonWave()//动态按键波形图
 {
     unsigned char Xtime;
     
     for(Xtime=127;Xtime>0;Xtime--)
     {
-        WaveData[Xtime]=WaveData[Xtime-1];
+        WaveData[Xtime]=WaveData[Xtime-1];//将前一个点的y坐标赋值给当前点的y坐标
     }
-
-    // if(P34)//默认高电平
-    // {
-    //     WaveData[0]=high_level_num;
-    // }
-    // else
-    // {
-    //     WaveData[0]=low_level_num;
-    // }
 
     OLED_CLS();
     for(Xtime=0;Xtime<127;Xtime++)
@@ -681,7 +672,7 @@ void ButtonWave()
         OLED_Line(Xtime,(unsigned char)(63-WaveData[Xtime]) ,Xtime,(unsigned char)(63-WaveData[Xtime+1]),0);//x0,y0,x1,y1,是否立即显示
     }
     OLED_Show();
-    delay_ms(50);
+    
 }
 
 void oled_draw_line(u8 x0,u8 y0,u8 x1,u8 y1,bit draw,u8 dot)//draw:
@@ -752,7 +743,7 @@ void oled_drawblock(u8 x0,u8 y0,u8 x1,u8 y1)//画一个矩形块，间隔dot
     }
 }
 
-void oled_drawsin()
+void test_oled_drawsin()
 {
     u8 x0=64,y0=32;         // 设置坐标系原点为屏幕中心(64,32)
     float si,sx,sy,rad;     // si:角度变量, sx:x坐标, sy:y坐标, rad:弧度值
@@ -773,7 +764,7 @@ void oled_drawsin()
     OLED_CLS();
 }
 
-void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
+void test_oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
 {
     float Rx,Ry,angle,rad;
 
@@ -795,4 +786,10 @@ void oled_drawCircle(u8 x0,u8 y0,u8 R,bit draw)
         }   
         OLED_Show();
     }
+}
+
+void test_key_level_wave()
+{
+    ButtonWave();//按键波动图形显示
+    time_out();//ADC检测按键0和1，分别控制2条静态波形图的高电平和低电平
 }
